@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { FaSearch, FaEdit, FaTrash } from "react-icons/fa";
 import CommonMessage from "@/components/CommonMessage";
 import { RiDeleteBin5Line } from "react-icons/ri";
+import { FaUserEdit } from "react-icons/fa";
 
 const Page = () => {
   const [users, setUsers] = useState([]);
@@ -34,10 +35,34 @@ const Page = () => {
     setUserName(userName)
   }
 
-  const handleClickFunction = (option) => {
-    console.log(option);
-    setIsDelete(false);
+  const handleClickFunctionForDelete = (option) => {
+    if (option === 1){
+      // handel ok button
+      setIsDelete(false);
+      // write api request
+    }else {
+      // handel cancel button
+      setIsDelete(false);
+    }
+
   }
+
+  const handleClickFunctionForUpdate = (option) => {
+    if (option === 1){
+      // handel ok button
+      setIsEdit(false);
+      // write api request
+    }else {
+      // handel cancel button
+      setIsEdit(false);
+    }
+
+  }
+
+const handelOnEdit = () =>{
+    setIsEdit(true);
+}
+
 
   return (
     <div className="p-4">
@@ -76,7 +101,10 @@ const Page = () => {
                   <td className="text-md px-6 py-2 pb-4 pt-4">{user.email}</td>
                   <td className="text-md px-6 py-2 pb-4 pt-4">{user.isVerified ? 'Active' : 'Inactive'}</td>
                   <td className="text-md px-6 py-2 pb-4 pt-4 flex justify-center gap-2">
-                    <button className="p-1 text-gray-500 pr-4 hover:text-blue-600  cursor-pointer">
+                    <button
+                        className="p-1 text-gray-500 pr-4 hover:text-blue-600  cursor-pointer"
+                        onClick={()=>{handelOnEdit()}}
+                    >
                       <FaEdit  size={20}/>
                     </button>
                     <button
@@ -108,15 +136,20 @@ const Page = () => {
             <CommonMessage
                 icon={<RiDeleteBin5Line className="text-red-500 text-4xl"/>}
                 message={`Do you want to delete ${userName}'s details ?`}
-                onClickHandle={handleClickFunction}
+                onClickHandle={handleClickFunctionForDelete}
             />
           </div>
       )}
 
 
       {isEdit && (
-          <>
-          </>
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/60 ">
+            <CommonMessage
+                icon={<FaUserEdit className="text-blue-950 text-4xl"/>}
+                message={`Do you want to update ${userName}'s details ?`}
+                onClickHandle={handleClickFunctionForUpdate}
+            />
+          </div>
       )}
     </div>
   );
